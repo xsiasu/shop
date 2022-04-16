@@ -19,7 +19,10 @@
 
           <div class="block2-btn-addcart w-size1 trans-0-4">
             <!-- Button -->
-            <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+            <button
+              class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4"
+              @click="addToCart(item)"
+            >
               Add to Cart
             </button>
           </div>
@@ -46,6 +49,11 @@ export default {
     item: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    addToCart(item) {
+      this.$store.dispatch("addItem", item);
     },
   },
 };

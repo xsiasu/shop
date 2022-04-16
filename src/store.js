@@ -17,9 +17,13 @@ export default new Vuex.Store({
     bestproduct: [],
     blogs: [],
     instagram: [],
+    items: [],
   },
   getters: {
     //computed
+    totalQty: (state) => {
+      return state.items.length;
+    },
     allProducts: (state) => {
       return state.featuredproduct.length;
     },
@@ -34,6 +38,9 @@ export default new Vuex.Store({
     // 인자에 넣어줘야한다.
     percentOfNew: (state, getters) => {
       return Math.round((getters.countOfNew / getters.allProducts) * 100);
+    },
+    totalPrice(state) {
+      return Math.round(state.items.reduce((sum, item) => sum + item.price, 0));
     },
   },
   mutations: {
@@ -51,6 +58,11 @@ export default new Vuex.Store({
     },
     setInstagram(state, instagram) {
       state.instagram = [].concat(instagram);
+    },
+    addItem(state, item) {
+      state.items.push({
+        ...item,
+      });
     },
   },
   actions: {
@@ -73,6 +85,9 @@ export default new Vuex.Store({
     async setInstagram({ commit }) {
       const response = await socialApi.getInstagram();
       commit("setInstagram", response.data);
+    },
+    addItem({ commit }, item) {
+      commit("addItem", item);
     },
   },
 });
