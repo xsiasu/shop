@@ -21,9 +21,7 @@ export default new Vuex.Store({
   },
   getters: {
     //computed
-    totalQty: (state) => {
-      return state.items.length;
-    },
+
     allProducts: (state) => {
       return state.featuredproduct.length;
     },
@@ -40,7 +38,12 @@ export default new Vuex.Store({
       return Math.round((getters.countOfNew / getters.allProducts) * 100);
     },
     totalPrice(state) {
-      return Math.round(state.items.reduce((sum, item) => sum + item.price, 0));
+      return Math.round(
+        state.items.reduce((sum, item) => sum + item.price * item.qty, 0)
+      );
+    },
+    totalQty: (state) => {
+      return state.items.length;
     },
   },
   mutations: {
@@ -60,9 +63,20 @@ export default new Vuex.Store({
       state.instagram = [].concat(instagram);
     },
     addItem(state, item) {
-      state.items.push({
-        ...item,
+      const cartItems = state.items.filter((cartItem) => {
+        cartItem.id = item.id;
       });
+      if (cartItems.length === 0) {
+        state.items.push({
+          ...item,
+          qty: 1,
+        });
+      } else {
+        cartItems[0].qty++;
+      }
+    },
+    delItem(state, index) {
+      state.items.splice(index, 1);
     },
   },
   actions: {
@@ -88,6 +102,9 @@ export default new Vuex.Store({
     },
     addItem({ commit }, item) {
       commit("addItem", item);
+    },
+    delItem({ commit }, id) {
+      commit("delItem", id);
     },
   },
 });

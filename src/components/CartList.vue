@@ -6,7 +6,7 @@
       <ul class="header-cart-wrapitem">
         <template v-for="(item, index) in items">
           <li :key="index" class="header-cart-item">
-            <div class="header-cart-item-img">
+            <div class="header-cart-item-img" @click="delItem(index)">
               <img :src="item.image" alt="IMG" />
             </div>
             <div class="header-cart-item-txt">
@@ -14,7 +14,9 @@
                 Converse All Star Hi Black Canvas
               </a>
 
-              <span class="header-cart-item-info"> 1 x ${{ item.price }}</span>
+              <span class="header-cart-item-info">
+                {{ item.qty }} x ${{ item.price }}</span
+              >
             </div>
           </li>
         </template>
@@ -49,12 +51,18 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
+
 export default {
   computed: {
     ...mapState(["items"]),
     ...mapGetters(["totalPrice", "totalQty"]),
   },
   created() {},
+  methods: {
+    delItem(index) {
+      this.$store.dispatch("delItem", index);
+    },
+  },
 };
 </script>
 
