@@ -1,9 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import socialApi from "@/api/social";
-import featuredproductApi from "@/api/product";
 import allproductApi from "@/api/product";
-import bestproductApi from "@/api/product";
 
 Vue.use(Vuex);
 Vue.config.devtools = true;
@@ -13,7 +11,7 @@ export default new Vuex.Store({
     //data
     allproduct: [],
     totalproduct: 0,
-    featuredproduct: [],
+    featuredproduct: [], //배열선언만 한것인가?
     bestproduct: [],
     blogs: [],
     instagram: [],
@@ -47,12 +45,15 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    setFeaturedProduct(state, featuredproduct) {
-      state.featuredproduct = [].concat(featuredproduct);
+    //베스트상품
+    setbestProduct(state, allproduct) {
+      state.bestproduct = [].concat(allproduct);
     },
-    setbestProduct(state, bestproduct) {
-      state.bestproduct = [].concat(bestproduct);
+    //특징상품
+    setFeaturedProduct(state, allproduct) {
+      state.featuredproduct = [].concat(allproduct);
     },
+    //모든상품
     setAllProduct(state, allproduct) {
       state.allproduct = [].concat(allproduct);
     },
@@ -63,35 +64,62 @@ export default new Vuex.Store({
       state.instagram = [].concat(instagram);
     },
     addItem(state, item) {
-      const cartItems = state.items.filter((cartItem) => {
+      const resultItems = state.items.filter((cartItem) => {
         cartItem.id = item.id;
       });
-      if (cartItems.length === 0) {
+
+      if (resultItems.length === 0) {
         state.items.push({
           ...item,
           qty: 1,
         });
       } else {
-        cartItems[0].qty++;
+        resultItems[0].qty++;
       }
     },
     delItem(state, index) {
       state.items.splice(index, 1);
     },
+    // delItem(state, id) {
+    //   state.items = state.items.filter((item) => {
+    //     item.id !== id;
+    //   });
+    // },
+    changeQty(state, { id, qty }) {
+      const cartItem = state.items.filter((cartItem) => {
+        cartItem.id === id;
+      });
+
+      if (cartItem.length !== 0) {
+        if (cartItem[0].qty + qty <= 0) {
+          const index = state.items.findIndex((cartItem) => {
+            cartItem.id === id;
+
+            state.items.splice(index, 1);
+          });
+        } else {
+          cartItem[0].qty += qty;
+        }
+      }
+    },
+    clearCart(state) {
+      state.items = [];
+    },
   },
   actions: {
     async setFeaturedProduct({ commit }) {
-      const response = await featuredproductApi.getFeaturedProduct();
+      const response = await allproductApi.getFeaturedProduct();
       commit("setFeaturedProduct", response.data);
     },
     async setBestProduct({ commit }) {
-      const response = await bestproductApi.getBestProduct();
+      const response = await allproductApi.getBestProduct();
       commit("setBestProduct", response.data);
     },
     async setAllProduct({ commit }) {
       const response = await allproductApi.getAllProduct();
       commit("setAllProduct", response.data.allproduct);
     },
+
     async setBlog({ commit }) {
       const response = await socialApi.getBlog();
       commit("setBlog", response.data);
@@ -103,8 +131,23 @@ export default new Vuex.Store({
     addItem({ commit }, item) {
       commit("addItem", item);
     },
-    delItem({ commit }, id) {
-      commit("delItem", id);
+    delItem({ commit }, index) {
+      commit("delItem", index);
+    },
+    increaseQty({ commit }, id) {
+      commit("changeQty", {
+        id,
+        qty: 1,
+      });
+    },
+    decreaseQty({ commit }, id) {
+      commit("changeQty", {
+        id,
+        qty: -1,
+      });
+    },
+    clearCart({ commit }) {
+      commit("clearCart");
     },
   },
 });

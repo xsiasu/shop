@@ -39,7 +39,7 @@
           <nav class="menu">
             <ul class="main_menu">
               <li>
-                <router-link to="/" tag="a"> Home </router-link>
+                <router-link :to="{ name: 'home' }" tag="a"> Home </router-link>
 
                 <ul class="sub_menu">
                   <li><a href="index.html">Homepage V1</a></li>
@@ -49,11 +49,13 @@
               </li>
 
               <li>
-                <router-link to="/shop" tag="a">Shop</router-link>
+                <router-link :to="{ name: 'shop' }" tag="a">Shop</router-link>
               </li>
 
               <li>
-                <a href="cart.html">Features</a>
+                <router-link :to="{ name: 'features' }" tag="a"
+                  >Features</router-link
+                >
               </li>
             </ul>
           </nav>

@@ -34,14 +34,6 @@ export default {
     ...mapGetters(["allProducts", "countOfNew", "percentOfNew"]),
     ...mapState(["featuredproduct"]),
   },
-  // 객체 받기
-  // computed: {
-  //   ...mapGetters({
-  //     allcount: "allProducts",
-  //     newcount: "countOfNew",
-  //     percent: "percentOfNew",
-  //   }),
-  // },
   created() {
     this.$store.dispatch("setFeaturedProduct").then(() => {
       this.$nextTick(() => {

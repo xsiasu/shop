@@ -6,7 +6,7 @@
       <ul class="header-cart-wrapitem">
         <template v-for="(item, index) in items">
           <li :key="index" class="header-cart-item">
-            <div class="header-cart-item-img" @click="delItem(index)">
+            <div class="header-cart-item-img" @click.prevent="delItem(index)">
               <img :src="item.image" alt="IMG" />
             </div>
             <div class="header-cart-item-txt">
@@ -57,7 +57,6 @@ export default {
     ...mapState(["items"]),
     ...mapGetters(["totalPrice", "totalQty"]),
   },
-  created() {},
   methods: {
     delItem(index) {
       this.$store.dispatch("delItem", index);
