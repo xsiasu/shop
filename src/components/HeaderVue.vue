@@ -113,65 +113,40 @@
               class="header-icon1 js-show-header-dropdown"
               alt="ICON"
             />
-            <span class="header-icons-noti">0</span>
+            <span class="header-icons-noti">{{ totalQty }}</span>
 
             <!-- Header cart noti -->
             <div class="header-cart header-dropdown">
               <ul class="header-cart-wrapitem">
-                <li class="header-cart-item">
-                  <div class="header-cart-item-img">
-                    <img src="images/item-cart-01.jpg" alt="IMG" />
-                  </div>
+                <template v-for="(item, index) in items">
+                  <li :key="index" class="header-cart-item">
+                    <div class="header-cart-item-img" @click="delItem(item.id)">
+                      <img :src="item.image" alt="IMG" />
+                    </div>
 
-                  <div class="header-cart-item-txt">
-                    <a href="#" class="header-cart-item-name">
-                      White Shirt With Pleat Detail Back
-                    </a>
+                    <div class="header-cart-item-txt">
+                      <a href="#" class="header-cart-item-name">
+                        {{ item.title }}
+                      </a>
 
-                    <span class="header-cart-item-info"> 1 x $19.00 </span>
-                  </div>
-                </li>
-
-                <li class="header-cart-item">
-                  <div class="header-cart-item-img">
-                    <img src="images/item-cart-02.jpg" alt="IMG" />
-                  </div>
-
-                  <div class="header-cart-item-txt">
-                    <a href="#" class="header-cart-item-name">
-                      Converse All Star Hi Black Canvas
-                    </a>
-
-                    <span class="header-cart-item-info"> 1 x $39.00 </span>
-                  </div>
-                </li>
-
-                <li class="header-cart-item">
-                  <div class="header-cart-item-img">
-                    <img src="images/item-cart-03.jpg" alt="IMG" />
-                  </div>
-
-                  <div class="header-cart-item-txt">
-                    <a href="#" class="header-cart-item-name">
-                      Nixon Porter Leather Watch In Tan
-                    </a>
-
-                    <span class="header-cart-item-info"> 1 x $17.00 </span>
-                  </div>
-                </li>
+                      <span class="header-cart-item-info">
+                        {{ item.qty }} x ${{ item.price }}
+                      </span>
+                    </div>
+                  </li>
+                </template>
               </ul>
 
-              <div class="header-cart-total">Total: $75.00</div>
+              <div class="header-cart-total">Total: ${{ totalPrice }}</div>
 
               <div class="header-cart-buttons">
                 <div class="header-cart-wrapbtn">
                   <!-- Button -->
-                  <a
-                    href="cart.html"
+                  <router-link
+                    tag="a"
+                    :to="{ name: 'features' }"
                     class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4"
-                  >
-                    View Cart
-                  </a>
+                  ></router-link>
                 </div>
 
                 <div class="header-cart-wrapbtn">
@@ -270,9 +245,19 @@
 
 <script>
 import CartList from "./CartList";
+import { mapState, mapGetters } from "vuex";
 export default {
   components: {
     CartList,
+  },
+  computed: {
+    ...mapState("cart", ["items"]),
+    ...mapGetters("cart", ["totalPrice", "totalQty"]),
+  },
+  methods: {
+    delItem(id) {
+      this.$store.dispatch("cart/delItem", id);
+    },
   },
 };
 </script>

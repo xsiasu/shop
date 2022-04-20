@@ -38,7 +38,7 @@
           Herschel supply co 25l
         </a>
 
-        <span class="block2-price m-text6 p-r-5"> $75.00 </span>
+        <span class="block2-price m-text6 p-r-5"> ${{ item.price }} </span>
       </div>
     </div>
   </div>

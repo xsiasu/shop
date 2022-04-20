@@ -6,9 +6,7 @@ export default {
   },
   getters: {
     totalPrice(state) {
-      return Math.round(
-        state.items.reduce((sum, item) => sum + item.price * item.qty, 0)
-      );
+      return state.items.reduce((sum, item) => sum + item.price * item.qty, 0);
     },
     totalQty(state) {
       //reduct 0 부터 시작 1개씩 더한다.
@@ -48,19 +46,31 @@ export default {
       // state.items.splice(index, 1);
       state.items = state.items.filter((item) => item.id !== id);
     },
-    changeQty(state, { id, qty }) {
-      const resultItem = state.items.filter((cartItem) => {
-        cartItem.id === id;
-      });
-      if (resultItem.length !== 0) {
-        if (resultItem[0].qty + qty <= 0) {
-          const index = state.items.findIndex((cartItem) => {
-            cartItem.id === id;
+    // changeQty(state, { id, qty }) {
+    //   const resultItem = state.items.filter((cartItem) => {
+    //     cartItem.id === id;
+    //   });
+    //   if (resultItem.length !== 0) {
+    //     if (resultItem[0].qty + qty <= 0) {
+    //       const index = state.items.findIndex((cartItem) => {
+    //         cartItem.id === id;
 
-            state.items.splice(index, 1);
-          });
+    //         state.items.splice(index, 1);
+    //       });
+    //     } else {
+    //       resultItem[0].qty += qty;
+    //     }
+    //   }
+    // },
+    changeQty(state, { id, qty }) {
+      const cartItem = state.items.filter((cartItem) => cartItem.id === id);
+      if (cartItem.length !== 0) {
+        if (cartItem[0].qty + qty <= 0) {
+          const index = state.items.findIndex((cartItem) => cartItem.id === id);
+
+          state.items.splice(index, 1);
         } else {
-          resultItem[0].qty += qty;
+          cartItem[0].qty += qty;
         }
       }
     },

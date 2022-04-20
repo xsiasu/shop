@@ -58,7 +58,9 @@
                       </button>
                     </div>
                   </td>
-                  <td class="column-5">${{ item.price }}</td>
+                  <td class="column-5">
+                    ${{ Math.ceil(item.qty * item.price) }}
+                  </td>
                 </tr>
               </template>
             </table>
