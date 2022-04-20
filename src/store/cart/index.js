@@ -10,25 +10,40 @@ export default {
         state.items.reduce((sum, item) => sum + item.price * item.qty, 0)
       );
     },
-    totalQty: (state) => {
-      return state.items.length;
+    totalQty(state) {
+      //reduct 0 부터 시작 1개씩 더한다.
+      return state.items.reduce((sum, item) => sum + item.qty, 0);
     },
   },
   mutations: {
     addItem(state, item) {
-      const resultItems = state.items.filter((cartItem) => {
-        cartItem.id === item.id;
-      });
+      const cartItems = state.items.filter(
+        (cartItem) => cartItem.id === item.id
+      );
 
-      if (resultItems.length === 0) {
+      if (cartItems.length === 0) {
         state.items.push({
           ...item,
           qty: 1,
         });
       } else {
-        resultItems[0].qty++;
+        cartItems[0].qty++;
       }
     },
+    // addItem(state, item) {
+    //   const resultItems = state.items.filter((cartItem) => {
+    //     cartItem.id === item.id;
+    //   });
+
+    //   if (resultItems.length === 0) {
+    //     state.items.push({
+    //       ...item,
+    //       qty: 1,
+    //     });
+    //   } else {
+    //     resultItems[0].qty++;
+    //   }
+    // },
     delItem(state, id) {
       // state.items.splice(index, 1);
       state.items = state.items.filter((item) => item.id !== id);
