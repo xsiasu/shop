@@ -27,8 +27,9 @@
                   <td class="column-1">
                     <div
                       class="cart-img-product b-rad-4 o-f-hidden"
-                      @click="delItem(index)"
+                      @click="delItem(item.id)"
                     >
+                      {{ item.id }}
                       <img :src="item.image" alt="IMG-PRODUCT" />
                     </div>
                   </td>
@@ -180,22 +181,21 @@ import { mapState, mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapState(["items"]),
-    ...mapGetters(["totalPrice"]),
+    ...mapState("cart", ["items"]),
+    ...mapGetters("cart", ["totalPrice"]),
   },
-
   methods: {
-    delItem(index) {
-      this.$store.dispatch("delItem", index);
+    delItem(id) {
+      this.$store.dispatch("cart/delItem", id);
     },
     increase(id) {
-      this.$store.dispatch("increaseQty", id);
+      this.$store.dispatch("cart/increaseQty", id);
     },
     decrease(id) {
-      this.$store.dispatch("decreaseQty", id);
+      this.$store.dispatch("cart/decreaseQty", id);
     },
     clearCart() {
-      this.$store.dispatch("clearCart");
+      this.$store.dispatch("cart/clearCart");
     },
   },
 };

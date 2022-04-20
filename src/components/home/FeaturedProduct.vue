@@ -4,7 +4,7 @@
     <div class="container">
       <div class="sec-title p-b-60">
         <h3 class="m-text5 t-center">
-          Featured Products{{ allProducts }} 새상품
+          Featured Products{{ featuredAllProducts }} 새상품
           {{ countOfNew }}
           새상품의 비율 {{ percentOfNew }}%
         </h3>
@@ -31,11 +31,15 @@ export default {
     AllProduct,
   },
   computed: {
-    ...mapGetters(["allProducts", "countOfNew", "percentOfNew"]),
-    ...mapState(["featuredproduct"]),
+    ...mapGetters("product", [
+      "featuredAllProducts",
+      "countOfNew",
+      "percentOfNew",
+    ]),
+    ...mapState("product", ["featuredproduct"]),
   },
   created() {
-    this.$store.dispatch("setFeaturedProduct").then(() => {
+    this.$store.dispatch("product/setFeaturedProduct").then(() => {
       this.$nextTick(() => {
         $(this.$refs.slick).slick2();
       });

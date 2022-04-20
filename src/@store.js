@@ -20,7 +20,7 @@ export default new Vuex.Store({
   getters: {
     //computed
 
-    allProducts: (state) => {
+    featuredAllProducts: (state) => {
       return state.featuredproduct.length;
     },
     countOfNew: (state) => {
@@ -33,7 +33,9 @@ export default new Vuex.Store({
     // getters 를 사ㅇㅏ기 위서 두번째 인에 getters를 넣어줘야하므로 state 를 첫번째
     // 인자에 넣어줘야한다.
     percentOfNew: (state, getters) => {
-      return Math.round((getters.countOfNew / getters.allProducts) * 100);
+      return Math.round(
+        (getters.countOfNew / getters.featuredAllProducts) * 100
+      );
     },
     totalPrice(state) {
       return Math.round(
@@ -65,7 +67,7 @@ export default new Vuex.Store({
     },
     addItem(state, item) {
       const resultItems = state.items.filter((cartItem) => {
-        cartItem.id = item.id;
+        cartItem.id === item.id;
       });
 
       if (resultItems.length === 0) {
@@ -77,28 +79,23 @@ export default new Vuex.Store({
         resultItems[0].qty++;
       }
     },
-    delItem(state, index) {
-      state.items.splice(index, 1);
+    delItem(state, id) {
+      // state.items.splice(index, 1);
+      state.items = state.items.filter((item) => item.id !== id);
     },
-    // delItem(state, id) {
-    //   state.items = state.items.filter((item) => {
-    //     item.id !== id;
-    //   });
-    // },
     changeQty(state, { id, qty }) {
-      const cartItem = state.items.filter((cartItem) => {
+      const resultItem = state.items.filter((cartItem) => {
         cartItem.id === id;
       });
-
-      if (cartItem.length !== 0) {
-        if (cartItem[0].qty + qty <= 0) {
+      if (resultItem.length !== 0) {
+        if (resultItem[0].qty + qty <= 0) {
           const index = state.items.findIndex((cartItem) => {
             cartItem.id === id;
 
             state.items.splice(index, 1);
           });
         } else {
-          cartItem[0].qty += qty;
+          resultItem[0].qty += qty;
         }
       }
     },

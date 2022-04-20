@@ -37,11 +37,11 @@
 import { mapState } from "vuex";
 export default {
   computed: {
-    ...mapState(["instagram"]),
+    ...mapState("insta", ["instagram"]),
   },
   created() {
     //dispatch 는 actions 에 접속할수 있는 메쏘드임
-    this.$store.dispatch("setInstagram");
+    this.$store.dispatch("insta/setInstagram");
   },
 };
 </script>

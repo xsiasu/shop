@@ -7,7 +7,7 @@
       </div>
 
       <div class="row">
-        <template v-for="item in $store.state.blogs">
+        <template v-for="item in blogs">
           <div :key="item.id" class="col-sm-10 col-md-4 p-b-30 m-l-r-auto">
             <!-- Block3 -->
             <div class="block3">
@@ -43,12 +43,16 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {};
   },
+  computed: {
+    ...mapState("blog", ["blogs"]),
+  },
   created() {
-    this.$store.dispatch("setBlog");
+    this.$store.dispatch("blog/setBlog");
   },
 };
 </script>

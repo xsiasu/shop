@@ -9,6 +9,7 @@
           'block2=labelsale': item.badge === 'sale',
         }"
       >
+        {{ item.id }}
         <img :src="item.image" alt="IMG-PRODUCT" />
 
         <div class="block2-overlay trans-0-4">
@@ -53,7 +54,7 @@ export default {
   },
   methods: {
     addToCart(item) {
-      this.$store.dispatch("addItem", item);
+      this.$store.dispatch("cart/addItem", item);
     },
   },
 };

@@ -94,6 +94,7 @@
 <script>
 import bestproductApi from "@/api/product";
 export default {
+  namespaced: true,
   data() {
     return {
       bestproduct: [],
