@@ -26,6 +26,8 @@
   </div>
 </template>
 
+<script type="text/javascript" src="vendor/noui/nouislider.min.js"></script>
+
 <script>
 export default {
   mounted() {
@@ -49,6 +51,10 @@ export default {
 
     filterBar.noUiSlider.on("update", function (values, handle) {
       skipValues[handle].innerHTML = Math.round(values[handle]);
+    });
+
+    filterBar.noUiSlider.on("end", (values) => {
+      this.$store.dispatch("product/setPriceRange", values);
     });
   },
 };

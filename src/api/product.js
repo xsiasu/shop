@@ -7,9 +7,11 @@ export default {
   async getFeaturedProduct() {
     return http.get("api/featured-product.json");
   },
-  async getAllProduct(page = 1) {
+  //모든상품의 인자를 넣어준다. page=1 , priceRange=null
+  async getAllProduct(page = 1, priceRange = null) {
     return http.get("api/all-product.json", {
       page,
+      priceRange,
     });
   },
 };

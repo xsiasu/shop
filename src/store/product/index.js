@@ -8,6 +8,7 @@ export default {
     totalproduct: 0,
     featuredproduct: [], //배열선언만 한것인가?
     page: 0,
+    priceRange: null,
   },
   getters: {
     featuredAllProducts: (state) => {
@@ -48,6 +49,9 @@ export default {
     setPage(state, page) {
       state.page = page;
     },
+    setPriceRange(state, priceRange) {
+      state.priceRange = priceRange;
+    },
   },
   actions: {
     async setBestProduct({ commit }) {
@@ -59,13 +63,21 @@ export default {
       commit("setFeaturedProduct", response.data);
     },
 
-    async setAllProduct({ commit }, page = 0) {
-      const response = await allproductApi.getAllProduct(page);
+    async setAllProduct({ commit, state }, page = 0) {
+      const response = await allproductApi.getAllProduct(
+        page,
+        state.priceRange
+      );
       // 모든상품데이터 호출
       commit("setAllProduct", response.data.allproduct);
       // 모든상품의 count 호출
       commit("setAllProductCount", response.data.total);
       commit("setPage", page);
+    },
+    async setPriceRange({ commit, dispatch }, priceRange) {
+      commit("setPriceRange", priceRange);
+
+      dispatch("setAllProduct");
     },
   },
 };

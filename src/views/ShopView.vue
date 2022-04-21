@@ -26,7 +26,7 @@
             <div class="flex-sb-m flex-w p-b-35">
               <span class="s-text8 p-t-5 p-b-5">
                 Showing {{ page * 12 + 1 }}–{{ page * 12 + 12 }} of
-                {{ totalProduct }} results
+                {{ totalproduct }} results
               </span>
             </div>
             <ProductList />
@@ -36,7 +36,7 @@
             </div>
             <!-- Pagination -->
             <div class="pagination flex-m flex-w p-t-26">
-              <template v-for="(p, index) in totalproduct / 12">
+              <template v-for="(p, index) in Math.ceil(totalproduct / 12)">
                 <button
                   :key="index"
                   class="item-pagination flex-c-m trans-0-4"
