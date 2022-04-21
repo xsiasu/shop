@@ -39,22 +39,23 @@
           <nav class="menu">
             <ul class="main_menu">
               <li>
-                <router-link :to="{ name: 'home' }" tag="a"> Home </router-link>
-
+                <router-link :to="{ name: 'home' }" active-class="active">
+                  <a>Home</a>
+                </router-link>
                 <ul class="sub_menu">
                   <li><a href="index.html">Homepage V1</a></li>
                   <li><a href="home-02.html">Homepage V2</a></li>
                   <li><a href="home-03.html">Homepage V3</a></li>
                 </ul>
               </li>
-
               <li>
-                <router-link :to="{ name: 'shop' }" tag="a">Shop</router-link>
+                <router-link :to="{ name: 'shop' }" active-class="active"
+                  ><a>Shop</a></router-link
+                >
               </li>
-
               <li>
-                <router-link :to="{ name: 'features' }" tag="a"
-                  >Features</router-link
+                <router-link :to="{ name: 'features' }" active-class="active"
+                  ><a>Features</a></router-link
                 >
               </li>
             </ul>
@@ -262,4 +263,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.active {
+  color: red;
+}
+</style>

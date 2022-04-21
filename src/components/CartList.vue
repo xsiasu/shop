@@ -21,7 +21,7 @@
         </template>
       </ul>
 
-      <div class="header-cart-total">Total: ${{ totalPrice }}</div>
+      <div class="header-cart-total">Total: ${{ Math.round(totalPrice) }}</div>
 
       <div class="header-cart-buttons">
         <div class="header-cart-wrapbtn">

@@ -7,6 +7,7 @@ export default {
     allproduct: [],
     totalproduct: 0,
     featuredproduct: [], //배열선언만 한것인가?
+    page: 0,
   },
   getters: {
     featuredAllProducts: (state) => {
@@ -40,6 +41,13 @@ export default {
     setAllProduct(state, allproduct) {
       state.allproduct = [].concat(allproduct);
     },
+    //paging 처리를 위한 상품 호출 count
+    setAllProductCount(state, totalCount) {
+      state.totalproduct = totalCount;
+    },
+    setPage(state, page) {
+      state.page = page;
+    },
   },
   actions: {
     async setBestProduct({ commit }) {
@@ -51,9 +59,13 @@ export default {
       commit("setFeaturedProduct", response.data);
     },
 
-    async setAllProduct({ commit }) {
-      const response = await allproductApi.getAllProduct();
+    async setAllProduct({ commit }, page = 0) {
+      const response = await allproductApi.getAllProduct(page);
+      // 모든상품데이터 호출
       commit("setAllProduct", response.data.allproduct);
+      // 모든상품의 count 호출
+      commit("setAllProductCount", response.data.total);
+      commit("setPage", page);
     },
   },
 };
